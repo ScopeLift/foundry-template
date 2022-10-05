@@ -62,7 +62,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: crytic/slither-action@v0.2.0
+
+      - name: Run Slither
+        uses: crytic/slither-action@v0.2.0
+        id: slither # Required to reference this step in the next step.
         with:
-          fail-on: all
+          fail-on: none # Required so SARIF upload step runs if issues are found.
+          sarif: results.sarif
           slither-args: --filter-paths "./lib"
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ steps.slither.outputs.sarif }}
