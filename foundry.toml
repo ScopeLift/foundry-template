@@ -4,7 +4,7 @@
 [profile.default]
   optimizer = true
   optimizer_runs = 10_000_000
-  solc_version = "0.8.16"
+  solc_version = "0.8.17"
   verbosity = 3
 
 # ==============================
