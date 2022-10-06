@@ -55,8 +55,18 @@ jobs:
         with:
           version: nightly
 
-      - name: Check contract formatting
-        run: forge fmt --check
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+
+      - name: Install scopelint
+        run: cargo install scopelint
+
+      - name: Check formatting
+        run: scopelint check
 
   slither-analyze:
     runs-on: ubuntu-latest
