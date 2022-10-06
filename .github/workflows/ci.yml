@@ -45,19 +45,6 @@ jobs:
       - name: Run tests
         run: forge test
 
-  fmt:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
-        with:
-          version: nightly
-
-      - name: Check contract formatting
-        run: forge fmt --check
-
   slither-analyze:
     runs-on: ubuntu-latest
     steps:
@@ -76,3 +63,21 @@ jobs:
         if: always() # Run even if previous step fails
         with:
           sarif_file: ${{ steps.slither.outputs.sarif }}
+
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+
+      - name: Install scopelint
+        run: cargo install scopelint
+
+      - name: Check formatting
+        run: scopelint check
