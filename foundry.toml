@@ -14,9 +14,6 @@
 [profile.lite]
   optimizer = false
 
-
-
-
 [profile.lite.fuzz]
   runs = 50
 
