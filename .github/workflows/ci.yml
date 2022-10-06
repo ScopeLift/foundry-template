@@ -69,6 +69,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
