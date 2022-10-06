@@ -1,5 +1,7 @@
 # ScopeLift Foundry Template
 
+*Work in progress, not ready for use*
+
 Short description here.
 
 ## Overview
