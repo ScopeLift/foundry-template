@@ -79,7 +79,7 @@ jobs:
         with:
           fail-on: all
           sarif: results.sarif
-          slither-args: --filter-paths "./lib"
+          slither-args: --filter-paths "./lib" --exclude naming-convention
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
