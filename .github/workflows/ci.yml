@@ -21,7 +21,7 @@ jobs:
         with:
           version: nightly
 
-      - name: Install deps
+      - name: Install dependencies
         run: forge install
 
       - name: Build contracts
@@ -39,7 +39,7 @@ jobs:
         with:
           version: nightly
 
-      - name: Install deps
+      - name: Install dependencies
         run: forge install
 
       - name: Run tests
