@@ -12,5 +12,7 @@ contract Counter {
     number++;
   }
 
-  function useless() internal {}
+  function useless() internal {
+    // does nothing
+  }
 }
