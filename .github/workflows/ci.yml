@@ -77,7 +77,7 @@ jobs:
         uses: crytic/slither-action@v0.2.0
         id: slither # Required to reference this step in the next step.
         with:
-          fail-on: none
+          fail-on: none # Required to avoid failing the CI run regardless of findings.
           sarif: results.sarif
           slither-args: --filter-paths "./lib|./test" --exclude naming-convention
 
