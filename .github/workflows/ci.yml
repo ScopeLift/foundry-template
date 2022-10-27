@@ -77,12 +77,11 @@ jobs:
         uses: crytic/slither-action@v0.2.0
         id: slither # Required to reference this step in the next step.
         with:
-          fail-on: all
+          fail-on: none
           sarif: results.sarif
           slither-args: --filter-paths "./lib|./test" --exclude naming-convention
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
-        if: always() # Run even if previous step fails
         with:
           sarif_file: ${{ steps.slither.outputs.sarif }}
