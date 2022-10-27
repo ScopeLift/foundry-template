@@ -11,8 +11,4 @@ contract Counter {
   function increment() public {
     number++;
   }
-
-  function useless() internal {
-    // does nothing
-  }
 }
