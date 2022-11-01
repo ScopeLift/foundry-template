@@ -4,6 +4,12 @@ A simple, opinionated template for [Foundry](https://github.com/foundry-rs/found
 
 _**Please read the full README before using this template.**_
 
+- [Usage](#usage)
+- [Overview](#overview)
+- [Configuration](#configuration)
+  - [Slither](#slither)
+  - [GitHub Code Scanning](#github-code-scanning)
+
 ## Usage
 
 To use this template, use one of the below approaches:
@@ -52,6 +58,8 @@ The CI also runs [scopelint](https://github.com/ScopeLift/scopelint) to verify f
 
 After creating a new repository from this template, make sure to set any desired [branch protections](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches) on your repo.
 
+### Slither
+
 In [`ci.yml`](.github/workflows/ci.yml), you'll notice Slither is configured as follows:
 
 ```yml
@@ -89,16 +97,11 @@ Findings are shown directly on the PR, as well as in your repo's "Security" tab,
 Alerts that are dismissed are remembered by GitHub, and will not be shown again on future PRs.
 
 Note that code scanning integration [only works](https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/setting-up-code-scanning-for-a-repository) for public repos, or private repos with GitHub Enterprise Cloud and a license for GitHub Advanced Security.
+If you have a private repo and don't want to purchase a license, the best option is probably to:
 
-## Development
-
-This project uses [Foundry](https://github.com/foundry-rs/foundry).
-
-If this project needs something other than the vanilla commands like `forge test`, or needs environment variables or RPC URLs, mention that here.
-
-## Other stuff
-
-Create other sections/content as needed.
+- Remove the `Upload SARIF file` step from CI.
+- Change the `Run Slither` step to `fail-on` whichever level you like, and remove the `sarif` output.
+- Use [triage mode](https://github.com/crytic/slither/wiki/Usage#triage-mode) locally and commit the resulting `slither.db.json` file, and make sure CI has access to that file.
 
 [^naming-convention]:
     A rigorous test naming convention is important for ensuring that tests are easy to understand and maintain, while also making filtering much easier.
