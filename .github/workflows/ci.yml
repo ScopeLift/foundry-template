@@ -69,8 +69,8 @@ jobs:
           repo: ScopeLift/scopelint
           fromGitHubReleases: true
           version: latest
-          pathInArchive: scopelint-aarch64-linux/scopelint
-          urlTemplate: https://github.com/ScopeLift/scopelint/releases/download/{{version}}/scopelint-aarch64-linux.tar.xz
+          pathInArchive: scopelint-x86_64-linux/scopelint
+          urlTemplate: https://github.com/ScopeLift/scopelint/releases/download/{{version}}/scopelint-x86_64-linux.tar.xz
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check formatting
