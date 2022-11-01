@@ -63,7 +63,15 @@ jobs:
           override: true
 
       - name: Install scopelint
-        run: cargo install scopelint
+        uses: engineerd/configurator@v0.0.8
+        with:
+          name: scopelint
+          repo: https://github.com/ScopeLift/scopelint
+          fromGitHubReleases: true
+          version: latest
+          pathInArchive: scopelint-aarch64-linux/scopelint
+          urlTemplate: https://github.com/ScopeLift/scopelint/releases/download/{{version}}/scopelint-aarch64-linux.tar.xz
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check formatting
         run: scopelint check
