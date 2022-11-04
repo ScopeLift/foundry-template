@@ -39,6 +39,31 @@ jobs:
       - name: Run tests
         run: forge test
 
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Run tests
+        run: forge coverage
+
+      # To ignore coverage for certain directories uncomment the below step and modify the paths
+      # as needed. The below default ignores coverage results for the test and script directories.
+      - name: Filter directories
+        run: lcov --remove lcov.info 'test/*' 'script/*' --output-file lcov.info
+
+      - name: Verify coverage level
+        uses: zgosalvez/github-actions-report-lcov@v1
+        with:
+          coverage-files: ./lcov.info
+          minimum-coverage: 100
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
   fmt:
     runs-on: ubuntu-latest
     steps:
