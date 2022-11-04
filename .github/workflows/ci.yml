@@ -21,9 +21,6 @@ jobs:
         with:
           version: nightly
 
-      - name: Install dependencies
-        run: forge install
-
       - name: Build contracts
         run: |
           forge --version
@@ -38,9 +35,6 @@ jobs:
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
-
-      - name: Install dependencies
-        run: forge install
 
       - name: Run tests
         run: forge test
