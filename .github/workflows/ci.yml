@@ -55,12 +55,12 @@ jobs:
       - name: Run coverage
         run: forge coverage --report lcov
 
-      # To ignore coverage for certain directories uncomment the below step and modify the paths
-      # as needed. The below default ignores coverage results for the test and script directories.
-      - name: Filter directories
-        run: |
-          sudo apt update && sudo apt install -y lcov
-          lcov --remove lcov.info 'test/*' 'script/*' --output-file lcov.info
+      # # To ignore coverage for certain directories uncomment this step and modify the paths as
+      # # needed. The below default ignores coverage results for the test and script directories.
+      # - name: Filter directories
+      #   run: |
+      #     sudo apt update && sudo apt install -y lcov
+      #     lcov --remove lcov.info 'test/*' 'script/*' --output-file lcov.info
 
       - name: Verify coverage level
         uses: zgosalvez/github-actions-report-lcov@v1
