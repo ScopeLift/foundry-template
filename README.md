@@ -6,6 +6,9 @@ _**Please read the full README before using this template.**_
 
 - [Usage](#usage)
 - [Overview](#overview)
+  - [`foundry.toml`](#foundrytoml)
+  - [CI](#ci)
+  - [Test Structure](#test-structure)
 - [Configuration](#configuration)
   - [Slither](#slither)
   - [GitHub Code Scanning](#github-code-scanning)
@@ -26,6 +29,8 @@ Note that these are supersets of `forge fmt` and `forge fmt --check`, so you do 
 
 This template is designed to be a simple but powerful configuration for Foundry projects.
 
+### `foundry.toml`
+
 The `foundry.toml` config file comes with:
 
 - A `fmt` configuration.
@@ -37,6 +42,8 @@ The `lite` profile turns the optimizer off, which is useful for speeding up comp
 
 It's recommended to keep the solidity configuration of the `default` and `ci` profiles in sync, to avoid accidentally deploying contracts with suboptimal configuration settings when running `forge script`.
 This means you can change the solc settings in the `default` profile and the `lite` profile, but never for the `ci` profile.
+
+### CI
 
 Robust CI is also included, with a GitHub Actions workflow that does the following:
 
@@ -53,6 +60,18 @@ The CI also runs [scopelint](https://github.com/ScopeLift/scopelint) to verify f
 - Validates constants and immutables are in `ALL_CAPS`.
 - Validates internal functions in `src/` start with a leading underscore.
 - Validates function names and visibility in forge scripts to 1 public `run` method per script. [^script-abi]
+
+### Test Structure
+
+The test structure is configured to follow recommended [best practices](https://github.com/mds1/foundry-book/blob/best-practices/src/tutorials/best-practices.md).
+It's strongly recommended to read that document, as it covers a range of aspects.
+Consequently, the test structure is as follows:
+
+- The core protocol deploy script is `script/Deploy.sol`.
+  This deploys the contracts and saves their addresses to storage variables.
+- The tests inherit from this deploy script and execute `Deploy.run()` in their `setUp` method.
+  This has the effect of running all tests against your deploy script, giving confidence that your deploy script is correct.
+- Each test contract serves as `describe` block to unit test a function, e.g. `contract Increment` to test the `increment` function.
 
 ## Configuration
 
