@@ -52,8 +52,8 @@ jobs:
       - name: Install dependencies
         run: forge install
 
-      - name: Run tests
-        run: forge coverage
+      - name: Run coverage
+        run: forge coverage --report lcov
 
       # To ignore coverage for certain directories uncomment the below step and modify the paths
       # as needed. The below default ignores coverage results for the test and script directories.
