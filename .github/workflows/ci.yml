@@ -77,13 +77,6 @@ jobs:
         with:
           version: nightly
 
-      - name: Install Rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: nightly
-          override: true
-
       - name: Install scopelint
         uses: engineerd/configurator@v0.0.8
         with:
