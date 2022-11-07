@@ -49,9 +49,6 @@ jobs:
         with:
           version: nightly
 
-      - name: Install dependencies
-        run: forge install
-
       - name: Run coverage
         run: forge coverage --report lcov
 
