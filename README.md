@@ -65,7 +65,7 @@ The CI also runs [scopelint](https://github.com/ScopeLift/scopelint) to verify f
 
 ### Test Structure
 
-The test structure is configured to follow recommended [best practices](https://github.com/mds1/foundry-book/blob/best-practices/src/tutorials/best-practices.md).
+The test structure is configured to follow recommended [best practices](https://book.getfoundry.sh/tutorials/best-practices).
 It's strongly recommended to read that document, as it covers a range of aspects.
 Consequently, the test structure is as follows:
 
@@ -89,10 +89,12 @@ See the [zgosalvez/github-actions-report-lcov](https://github.com/zgosalvez/gith
 # To ignore coverage for certain directories modify the paths in this step as needed. The
 # below default ignores coverage results for the test and script directories. Alternatively,
 # to include coverage in all directories, comment out this step.
+# The `--rc lcov_branch_coverage=1` part keeps branch info in the filtered report, since lcov
+# defaults to removing branch info.
 - name: Filter directories
   run: |
     sudo apt update && sudo apt install -y lcov
-    lcov --remove lcov.info 'test/*' 'script/*' --output-file lcov.info
+    lcov --remove lcov.info 'test/*' 'script/*' --output-file lcov.info --rc lcov_branch_coverage=1
 
 - name: Verify coverage level
   uses: zgosalvez/github-actions-report-lcov@v1
