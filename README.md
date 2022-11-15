@@ -6,7 +6,11 @@ _**Please read the full README before using this template.**_
 
 - [Usage](#usage)
 - [Overview](#overview)
+  - [`foundry.toml`](#foundrytoml)
+  - [CI](#ci)
+  - [Test Structure](#test-structure)
 - [Configuration](#configuration)
+  - [Coverage](#coverage)
   - [Slither](#slither)
   - [GitHub Code Scanning](#github-code-scanning)
 
@@ -26,6 +30,8 @@ Note that these are supersets of `forge fmt` and `forge fmt --check`, so you do 
 
 This template is designed to be a simple but powerful configuration for Foundry projects.
 
+### `foundry.toml`
+
 The `foundry.toml` config file comes with:
 
 - A `fmt` configuration.
@@ -38,10 +44,13 @@ The `lite` profile turns the optimizer off, which is useful for speeding up comp
 It's recommended to keep the solidity configuration of the `default` and `ci` profiles in sync, to avoid accidentally deploying contracts with suboptimal configuration settings when running `forge script`.
 This means you can change the solc settings in the `default` profile and the `lite` profile, but never for the `ci` profile.
 
+### CI
+
 Robust CI is also included, with a GitHub Actions workflow that does the following:
 
 - Runs tests with the `ci` profile.
 - Verifies contracts are within the [size limit](https://eips.ethereum.org/EIPS/eip-170) of 24576 bytes.
+- Runs `forge coverage` and verifies a minimum coverage threshold is met.
 - Runs `slither`, integrated with GitHub's [code scanning](https://docs.github.com/en/code-security/code-scanning). See the [Configuration](#configuration) section to learn more.
 
 The CI also runs [scopelint](https://github.com/ScopeLift/scopelint) to verify formatting and best practices:
@@ -54,9 +63,46 @@ The CI also runs [scopelint](https://github.com/ScopeLift/scopelint) to verify f
 - Validates internal functions in `src/` start with a leading underscore.
 - Validates function names and visibility in forge scripts to 1 public `run` method per script. [^script-abi]
 
+### Test Structure
+
+The test structure is configured to follow recommended [best practices](https://book.getfoundry.sh/tutorials/best-practices).
+It's strongly recommended to read that document, as it covers a range of aspects.
+Consequently, the test structure is as follows:
+
+- The core protocol deploy script is `script/Deploy.sol`.
+  This deploys the contracts and saves their addresses to storage variables.
+- The tests inherit from this deploy script and execute `Deploy.run()` in their `setUp` method.
+  This has the effect of running all tests against your deploy script, giving confidence that your deploy script is correct.
+- Each test contract serves as `describe` block to unit test a function, e.g. `contract Increment` to test the `increment` function.
+
 ## Configuration
 
 After creating a new repository from this template, make sure to set any desired [branch protections](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches) on your repo.
+
+### Coverage
+
+The [`ci.yml`](.github/workflows/ci.yml) has the below coverage configuration by default.
+The comments explain how to modify the configuration.
+See the [zgosalvez/github-actions-report-lcov](https://github.com/zgosalvez/github-actions-report-lcov) repo for more details on the available options.
+
+```yml
+# To ignore coverage for certain directories modify the paths in this step as needed. The
+# below default ignores coverage results for the test and script directories. Alternatively,
+# to include coverage in all directories, comment out this step.
+# The `--rc lcov_branch_coverage=1` part keeps branch info in the filtered report, since lcov
+# defaults to removing branch info.
+- name: Filter directories
+  run: |
+    sudo apt update && sudo apt install -y lcov
+    lcov --remove lcov.info 'test/*' 'script/*' --output-file lcov.info --rc lcov_branch_coverage=1
+
+- name: Verify coverage level
+  uses: zgosalvez/github-actions-report-lcov@v1
+  with:
+    coverage-files: ./lcov.info
+    minimum-coverage: 100 # Set coverage threshold.
+    github-token: ${{ secrets.GITHUB_TOKEN }} # Adds a coverage summary comment to the PR.
+```
 
 ### Slither
 
