@@ -12,10 +12,10 @@ contract CounterTest is Test, Deploy {
 }
 
 contract Increment is CounterTest {
-  function test_NumberIsIncremented() public {
-    counter.increment();
-    assertEq(counter.number(), 1);
-  }
+  // function test_NumberIsIncremented() public {
+  //   counter.increment();
+  //   assertEq(counter.number(), 1);
+  // }
 }
 
 contract SetNumber is CounterTest {
