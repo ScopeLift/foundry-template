@@ -71,6 +71,13 @@ jobs:
           minimum-coverage: 100 # Set coverage threshold.
           github-token: ${{ secrets.GITHUB_TOKEN }} # Adds a coverage summary comment to the PR.
 
+      - name: Testing other coverage tool
+        uses: romeovs/lcov-reporter-action@v0.2.16
+        with:
+          delete-old-comments: true
+          lcov-file: ./lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }} # Adds a coverage summary comment to the PR.
+
   lint:
     runs-on: ubuntu-latest
     steps:
