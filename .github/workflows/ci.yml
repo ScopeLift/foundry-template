@@ -71,22 +71,12 @@ jobs:
           minimum-coverage: 100 # Set coverage threshold.
           github-token: ${{ secrets.GITHUB_TOKEN }} # Adds a coverage summary comment to the PR.
 
-      # trying another
-      - name: 'Get PR number'
-        run: echo "pr_number=$(cat ./NR)" >> $GITHUB_ENV
-      - name: Generate code coverage report
-        uses: Nef10/lcov-reporter-action@v0.4.0
+      - name: Testing other coverage tool
+        uses: romeovs/lcov-reporter-action
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          delete-old-comments: true
           lcov-file: ./lcov.info
-          pr-number: ${{ env.pr_number }}
-          hide-branch-coverage: true
-          output-file: code-coverage-comment.html
-      - name: Post code coverage report
-        uses: marocchino/sticky-pull-request-comment@v2.3.1
-        with:
-          path: code-coverage-comment.html
-          number: ${{ env.pr_number }}
+          github-token: ${{ secrets.GITHUB_TOKEN }} # Adds a coverage summary comment to the PR.
 
   lint:
     runs-on: ubuntu-latest
