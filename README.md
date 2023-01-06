@@ -1,6 +1,6 @@
 # ScopeLift Foundry Template
 
-A simple, opinionated template for [Foundry](https://github.com/foundry-rs/foundry) projects.
+An opinionated template for [Foundry](https://github.com/foundry-rs/foundry) projects.
 
 _**Please read the full README before using this template.**_
 
@@ -28,7 +28,8 @@ Note that these are supersets of `forge fmt` and `forge fmt --check`, so you do 
 
 ## Overview
 
-This template is designed to be a simple but powerful configuration for Foundry projects.
+This template is designed to be a simple but powerful configuration for Foundry projects, that aims to help you follow Solidity and Foundry [best practices](https://book.getfoundry.sh/tutorials/best-practices)
+Writing secure contracts is hard, so it ships with strict defaults that you can loosen as needed.
 
 ### `foundry.toml`
 
@@ -43,6 +44,8 @@ The `lite` profile turns the optimizer off, which is useful for speeding up comp
 
 It's recommended to keep the solidity configuration of the `default` and `ci` profiles in sync, to avoid accidentally deploying contracts with suboptimal configuration settings when running `forge script`.
 This means you can change the solc settings in the `default` profile and the `lite` profile, but never for the `ci` profile.
+
+Note that the `foundry.toml` file is formatted using [Taplo](https://taplo.tamasfe.dev/) via `scopelint fmt`.
 
 ### CI
 
@@ -63,6 +66,10 @@ The CI also runs [scopelint](https://github.com/ScopeLift/scopelint) to verify f
 - Validates internal functions in `src/` start with a leading underscore.
 - Validates function names and visibility in forge scripts to 1 public `run` method per script. [^script-abi]
 
+Notably absent from the CI configuration is caching of RPC responses.
+You can cache RPC responses using the [`actions/cache`](https://github.com/actions/cache) action.
+By default forge caches RPC responses to the `~/.foundry/cache/rpc` directory.
+
 ### Test Structure
 
 The test structure is configured to follow recommended [best practices](https://book.getfoundry.sh/tutorials/best-practices).
@@ -81,28 +88,19 @@ After creating a new repository from this template, make sure to set any desired
 
 ### Coverage
 
-The [`ci.yml`](.github/workflows/ci.yml) has the below coverage configuration by default.
-The comments explain how to modify the configuration.
-See the [zgosalvez/github-actions-report-lcov](https://github.com/zgosalvez/github-actions-report-lcov) repo for more details on the available options.
+The [`ci.yml`](.github/workflows/ci.yml) has `coverage` configured by default, and contains comments explaining how to modify the configuration.
+It uses:
+The [lcov] CLI tool to filter out the `test/` and `script/` folders from the coverage report.
 
-```yml
-# To ignore coverage for certain directories modify the paths in this step as needed. The
-# below default ignores coverage results for the test and script directories. Alternatively,
-# to include coverage in all directories, comment out this step.
-# The `--rc lcov_branch_coverage=1` part keeps branch info in the filtered report, since lcov
-# defaults to removing branch info.
-- name: Filter directories
-  run: |
-    sudo apt update && sudo apt install -y lcov
-    lcov --remove lcov.info 'test/*' 'script/*' --output-file lcov.info --rc lcov_branch_coverage=1
+- The [romeovs/lcov-reporter-action](https://github.com/romeovs/lcov-reporter-action) action to post a detailed coverage report to the PR. Subsequent commits on the same branch will automatically delete stale coverage comments and post new ones.
+- The [zgosalvez/github-actions-report-lcov](https://github.com/zgosalvez/github-actions-report-lcov) action to fail coverage if a minimum coverage threshold is not met.
 
-- name: Verify coverage level
-  uses: zgosalvez/github-actions-report-lcov@v1
-  with:
-    coverage-files: ./lcov.info
-    minimum-coverage: 100 # Set coverage threshold.
-    github-token: ${{ secrets.GITHUB_TOKEN }} # Adds a coverage summary comment to the PR.
-```
+Be aware of foundry's current coverage limitations:
+
+- You cannot filter files/folders from `forge` directly, so `lcov` is used to do this.
+- `forge coverage` always runs with the optimizer off and without via-ir, so if you need either of these to compile you will not be able to run coverage.
+
+Remember not to optimize for coverage, but to optimize for [well thought-out tests](https://book.getfoundry.sh/tutorials/best-practices?highlight=coverage#best-practices-1).
 
 ### Slither
 
@@ -114,6 +112,16 @@ slither-args: --filter-paths "./lib|./test" --exclude naming-convention
 
 This means Slither is not run on the `lib` or `test` folders, and the `naming-convention` check is disabled.
 This `slither-args` field is where you can change the Slither configuration for your project.
+
+The `solc-version` check is another check you may want to disable.
+The `--exclude` flag takes a comma-separated list, so you can do this like so:
+
+```yml
+slither-args: --filter-paths "./lib|./test" --exclude naming-convention,solc-version
+```
+
+Notice that Slither will run against `script/` by default.
+Carefully written and tested scripts are key to ensuring complex deployment and scripting pipelines execute as planned, but you are free to disable Slither checks on the scripts folder if it feels like overkill for your use case.
 
 For more information on configuration Slither, see [the documentation](https://github.com/crytic/slither/wiki/Usage). For more information on configuring the slither action, see the [slither-action](https://github.com/crytic/slither-action) repo.
 
