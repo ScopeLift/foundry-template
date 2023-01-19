@@ -66,9 +66,7 @@ The CI also runs [scopelint](https://github.com/ScopeLift/scopelint) to verify f
 - Validates internal functions in `src/` start with a leading underscore.
 - Validates function names and visibility in forge scripts to 1 public `run` method per script. [^script-abi]
 
-Notably absent from the CI configuration is caching of RPC responses.
-You can cache RPC responses using the [`actions/cache`](https://github.com/actions/cache) action.
-By default forge caches RPC responses to the `~/.foundry/cache/rpc` directory.
+Note that the foundry-toolchain GitHub Action will cache RPC responses in CI by default, and it will also update the cache when you update your fork tests.
 
 ### Test Structure
 
