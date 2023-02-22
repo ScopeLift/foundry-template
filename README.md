@@ -108,10 +108,10 @@ In [`ci.yml`](.github/workflows/ci.yml), you'll notice Slither is configured as 
 slither-args: --filter-paths "./lib|./test" --exclude naming-convention
 ```
 
-This means Slither is not run on the `lib` or `test` folders, and the `naming-convention` check is disabled.
+This means Slither is not run on the `lib` or `test` folders, and the [`naming-convention`](https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions) check is disabled.
 This `slither-args` field is where you can change the Slither configuration for your project.
 
-The `solc-version` check is another check you may want to disable.
+The [`solc-version`](https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity) check is another check you may want to disable.
 The `--exclude` flag takes a comma-separated list, so you can do this like so:
 
 ```yml
