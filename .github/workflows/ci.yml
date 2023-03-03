@@ -114,7 +114,7 @@ jobs:
         with:
           fail-on: none # Required to avoid failing the CI run regardless of findings.
           sarif: results.sarif
-          slither-args: --filter-paths "./lib|./test" --exclude naming-convention
+          slither-args: --exclude naming-convention
           target: src/
 
       - name: Upload SARIF file
