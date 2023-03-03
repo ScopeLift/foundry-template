@@ -113,6 +113,7 @@ jobs:
           fail-on: none # Required to avoid failing the CI run regardless of findings.
           sarif: results.sarif
           slither-args: --filter-paths "./lib|./test" --exclude naming-convention
+          target: contracts/
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
