@@ -109,13 +109,12 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Run Slither
-        uses: crytic/slither-action@v0.2.0
+        uses: crytic/slither-action@v0.3.0
         id: slither # Required to reference this step in the next step.
         with:
           fail-on: none # Required to avoid failing the CI run regardless of findings.
           sarif: results.sarif
-          slither-args: --exclude naming-convention
-          target: src/
+          slither-args: --filter-paths "./lib|./test" --exclude naming-convention
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
