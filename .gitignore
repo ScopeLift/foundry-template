@@ -13,6 +13,6 @@ out/
 # Coverage
 lcov.info
 
-# ide
+# IDEs
 .vscode
 .idea
