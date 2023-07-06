@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 // slither-disable-start reentrancy-benign
 
-pragma solidity ^0.8.16;
+pragma solidity 0.8.20;
 
 import "forge-std/Script.sol";
 import {Counter} from "src/Counter.sol";
