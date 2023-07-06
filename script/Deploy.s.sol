@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
+// slither-disable-start reentrancy-benign
 
 pragma solidity ^0.8.16;
 
@@ -9,8 +10,7 @@ contract Deploy is Script {
   Counter counter;
 
   function run() public {
-    // Commented out for now until https://github.com/crytic/slither/pull/1461 is released.
-    // vm.startBroadcast();
+    vm.broadcast();
     counter = new Counter();
   }
 }
