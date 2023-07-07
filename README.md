@@ -105,18 +105,12 @@ Remember not to optimize for coverage, but to optimize for [well thought-out tes
 In [`ci.yml`](.github/workflows/ci.yml), you'll notice Slither is configured as follows:
 
 ```yml
-slither-args: --filter-paths "./lib|./test" --exclude naming-convention
-```
-
-This means Slither is not run on the `lib` or `test` folders, and the [`naming-convention`](https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions) check is disabled.
-This `slither-args` field is where you can change the Slither configuration for your project.
-
-The [`solc-version`](https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity) check is another check you may want to disable.
-The `--exclude` flag takes a comma-separated list, so you can do this like so:
-
-```yml
 slither-args: --filter-paths "./lib|./test" --exclude naming-convention,solc-version
 ```
+
+This means Slither is not run on the `lib` or `test` folders, and the [`naming-convention`](https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions) and [solc-version](https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity) checks are disabled.
+
+This `slither-args` field is where you can change the Slither configuration for your project, and the defaults above can of course be changed.
 
 Notice that Slither will run against `script/` by default.
 Carefully written and tested scripts are key to ensuring complex deployment and scripting pipelines execute as planned, but you are free to disable Slither checks on the scripts folder if it feels like overkill for your use case.
