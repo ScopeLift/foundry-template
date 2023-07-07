@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: UNLICENSED
+// slither-disable-start reentrancy-benign
 
-pragma solidity ^0.8.16;
+pragma solidity 0.8.20;
 
-import "forge-std/Script.sol";
+import {Script} from "forge-std/Script.sol";
 import {Counter} from "src/Counter.sol";
 
 contract Deploy is Script {
   Counter counter;
 
   function run() public {
-    // Commented out for now until https://github.com/crytic/slither/pull/1461 is released.
-    // vm.startBroadcast();
+    vm.broadcast();
     counter = new Counter();
   }
 }
