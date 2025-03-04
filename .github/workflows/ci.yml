@@ -37,6 +37,8 @@ jobs:
 
   coverage:
     runs-on: ubuntu-latest
+    env:
+      FOUNDRY_PROFILE: coverage
     steps:
       - uses: actions/checkout@v3
 

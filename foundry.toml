@@ -9,6 +9,10 @@
   fuzz = { runs = 5000 }
   invariant = { runs = 1000 }
 
+[profile.coverage]
+  fuzz = { runs = 100 }
+  invariant = { runs = 0 }
+
 [profile.lite]
   fuzz = { runs = 50 }
   invariant = { runs = 10 }
