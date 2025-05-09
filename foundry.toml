@@ -1,8 +1,8 @@
 [profile.default]
-  evm_version = "paris"
+  evm_version = "cancun"
   optimizer = true
   optimizer_runs = 10_000_000
-  solc_version = "0.8.28"
+  solc_version = "0.8.29"
   verbosity = 3
 
 [profile.ci]
