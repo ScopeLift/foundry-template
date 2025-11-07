@@ -1,13 +1,17 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.30;
 
-import {Test, console2} from "forge-std/Test.sol";
+/// forge-lint: disable-next-line(unused-import)
+import {console2} from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
 import {Deploy} from "script/Deploy.s.sol";
 import {Counter} from "src/Counter.sol";
 
 contract CounterTest is Test, Deploy {
+  Counter counter;
+
   function setUp() public {
-    Deploy.run();
+    counter = Deploy.run();
   }
 }
 
