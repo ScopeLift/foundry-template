@@ -7,10 +7,8 @@ import {Script} from "forge-std/Script.sol";
 import {Counter} from "src/Counter.sol";
 
 contract Deploy is Script {
-  Counter counter;
-
-  function run() public {
+  function run() public returns (Counter _counter) {
     vm.broadcast();
-    counter = new Counter();
+    _counter = new Counter();
   }
 }
