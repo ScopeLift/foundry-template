@@ -1,8 +1,8 @@
 [profile.default]
-  evm_version = "cancun"
+  evm_version = "prague"
   optimizer = true
   optimizer_runs = 10_000_000
-  solc_version = "0.8.30"
+  solc_version = "0.8.35"
   verbosity = 3
 
 [profile.ci]
@@ -26,6 +26,6 @@
   multiline_func_header = "attributes_first"
   number_underscore = "thousands"
   quote_style = "double"
-  single_line_statement_blocks = "single"
+  single_line_statement_blocks = "multi"
   tab_width = 2
   wrap_comments = true

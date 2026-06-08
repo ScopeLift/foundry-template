@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.30;
+pragma solidity 0.8.35;
 
 /// forge-lint: disable-next-line(unused-import)
 import {console2} from "forge-std/Test.sol";
